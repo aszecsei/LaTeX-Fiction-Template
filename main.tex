@@ -1,0 +1,169 @@
+% Universal Settings
+\documentclass[ebook, 12pt, onecolumn, twoside, openright]{memoir}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ebgaramond}
+
+% PACKAGE DEFINITION
+% Typographical Packages
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{lettrine}
+\usepackage{titlesec}
+
+% Other
+\usepackage{calc,fourier}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lipsum}
+
+% PHYSICAL DOCUMENT SETUP
+% Media Settings
+\setstocksize{8.5in}{5.675in}
+\settrimmedsize{8.5in}{5.5in}{*}
+\setbinding{0.175in}
+\setlrmarginsandblock{0.611in}{1.222in}{*}
+\setulmarginsandblock{0.722in}{1.545in}{*}
+
+% Defining the Title and Author
+\title{Fiction Template}
+\author{Author Name}
+\newcommand{\about}{a novel}
+\newcommand{\dedication}{for you, dear reader}
+
+% Custom Second Title Page
+\makeatletter
+\newcommand*\halftitlepage{\begingroup
+	\setlength\drop{0.5\textheight}
+	\begin{center}
+	\vspace*{\drop}
+	\rule{\textwidth}{0in}\par
+	{\Large\textsc\thetitle\par}
+	\rule{\textwidth}{0in}\par
+	\vfill
+	\end{center}
+\endgroup}
+\makeatother
+
+% Custom Title Page
+\thispagestyle{empty}
+\makeatletter
+\newlength\drop
+\newcommand*\titleM{\begingroup
+	\setlength\drop{0.15\textheight}
+	\begin{center}
+	\vspace*{\drop}
+	\rule{\textwidth}{0in}\par
+	{\HUGE\textsc\thetitle\par}
+	\rule{\textwidth}{0in}\par
+	{\Large\scshape\theauthor\par}
+	\vfill
+	{\textit\about}
+	\end{center}
+\endgroup}
+\makeatother
+
+% Chapter Title Manipulation
+% Padding with zero
+\renewcommand*\thechapter{\ifnum\value{chapter}<10 0\fi\arabic{chapter}}
+% Chapter Title Display
+\makeatletter
+\setlength\midchapskip{7pt}
+\makechapterstyle{VZ21}{
+\renewcommand\chapnamefont{\large\scshape}
+\renewcommand\chapnumfont{\large\scshape\centering}
+\renewcommand\chaptitlefont{\Large\bfseries\centering}
+\renewcommand\printchaptertitle[1]{%
+\setlength\tabcolsep{7pt}% used as indentation on both sides
+\settowidth\@tempdimc{\chaptitlefont ##1}%
+\setlength\@tempdimc{\textwidth-\@tempdimc-2\tabcolsep}%
+\chaptitlefont
+\ifdim\@tempdimc > 0pt\relax% one line
+\begin{tabular}{c}
+\toprule ##1\\ \bottomrule
+\end{tabular}
+\else% two+ lines
+\begin{tabular}{%
+>{\chaptitlefont\arraybackslash}p{\textwidth-2\tabcolsep}}
+\toprule ##1\\ \bottomrule
+\end{tabular}
+\fi
+}
+}
+\makeatother
+\chapterstyle{VZ21}
+
+% Typographical settings for the body text
+\setlength{\parskip}{0em}
+\linespread{1.09}
+
+% HEADER AND FOOTER MANIPULATION
+  % for normal pages
+  \nouppercaseheads
+  \headsep = 0.16in
+  \makepagestyle{mystyle} 
+  \setlength{\headwidth}{\dimexpr\textwidth+\marginparsep+\marginparwidth\relax}
+  \makerunningwidth{mystyle}{\headwidth}
+  \makeevenhead{mystyle}{}{\textsf{\scriptsize\scshape\thetitle}}{}
+  \makeoddhead{mystyle}{}{\textsf{\scriptsize\scshape\leftmark}}{}
+  \makeevenfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  \makeoddfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  \makeatletter
+  \makepsmarks{mystyle}{%
+  \createmark{chapter}{left}{nonumber}{\@chapapp\ }{.\ }}
+  \makeatother
+  % for pages where chapters begin
+  \makepagestyle{plain}
+  \makerunningwidth{plain}{\headwidth}
+  \makeevenfoot{plain}{}{}{}
+  \makeoddfoot{plain}{}{}{}
+  \pagestyle{mystyle}
+% END HEADER AND FOOTER MANIPULATION
+
+% table of contents customisation
+\renewcommand\contentsname{\normalfont\scshape Contents}
+\renewcommand\cftchapterfont{\normalfont}
+\renewcommand{\cftchapterpagefont}{\normalfont}
+\renewcommand{\printtoctitle}{\centering\Huge}
+
+% layout check and fix
+\checkandfixthelayout
+\fixpdflayout
+
+% Separator
+\newcommand{\separator}{\fancybreak{$* * *$}}
+
+% BEGIN THE DOCUMENT
+\begin{document}
+\pagestyle{empty}
+% the title page
+\titleM
+\clearpage
+
+% dedication
+\begin{center}
+\itshape{\noindent{\dedication}}
+\end{center}
+
+% begin front matter
+\frontmatter
+\pagestyle{mystyle}
+% table of contents
+\clearpage
+\tableofcontents*
+
+% begin main matter
+\mainmatter
+
+\chapter{The First Chapter}
+\lipsum
+
+\chapter{The Second Chapter}
+\lipsum
+
+\chapter{The Third Chapter}
+\lipsum
+
+% begin back matter
+
+\end{document}
+% END THE DOCUMENT
